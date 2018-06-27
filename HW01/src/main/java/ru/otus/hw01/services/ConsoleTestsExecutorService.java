@@ -48,7 +48,7 @@ public class ConsoleTestsExecutorService implements ITestsExecutorService {
 
     private String greeting(BufferedReader reader, String testName) throws IOException {
         System.out.println(String.format("Добро пожаловать на прохождение теста %s", testName));
-        System.out.println("Введите свое имя...");
+        System.out.println("Введите свое ФИО...");
         String name = reader.readLine();
         if (name.length() < 3) {
             System.err.println("Длина имени меньше 3 символов");
