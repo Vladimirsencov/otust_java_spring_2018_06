@@ -14,7 +14,7 @@
         <constructor-arg name = "csvFileLocation" value = "${csv.file.location}"/>
     </bean>
 
-    <bean id = "dataStorageService" class = "ru.otus.hw01.services.DataStorageService">
+    <bean id = "dataStorageService" class = "ru.otus.hw01.services.DataStorageServiceImpl">
         <constructor-arg name = "testsDAO" ref="testsDAO"/>
     </bean>
 

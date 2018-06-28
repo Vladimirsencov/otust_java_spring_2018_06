@@ -1,7 +1,7 @@
 package ru.otus.hw01.services;
 
-import ru.otus.hw01.interfaces.services.IDataStorageService;
-import ru.otus.hw01.interfaces.services.ITestsExecutorService;
+import ru.otus.hw01.interfaces.services.DataStorageService;
+import ru.otus.hw01.interfaces.services.TestsExecutorService;
 import ru.otus.hw01.models.Question;
 import ru.otus.hw01.models.QuestionAnswer;
 import ru.otus.hw01.models.Test;
@@ -12,10 +12,10 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
-public class ConsoleTestsExecutorService implements ITestsExecutorService {
-    private final IDataStorageService dataStorageService;
+public class ConsoleTestsExecutorService implements TestsExecutorService {
+    private final DataStorageService dataStorageService;
 
-    public ConsoleTestsExecutorService(IDataStorageService dataStorageService) {
+    public ConsoleTestsExecutorService(DataStorageService dataStorageService) {
         this.dataStorageService = dataStorageService;
     }
 
