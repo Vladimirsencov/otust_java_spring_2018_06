@@ -1,22 +1,18 @@
 package ru.otus.hw01.i18n;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
 import ru.otus.hw01.interfaces.i18n.MessageSourceWrapper;
 
 import java.util.Locale;
 
-@Service("messageSourceWrapper")
 public class MessageSourceWrapperImpl implements MessageSourceWrapper {
 
     private final Locale locale;
     private final MessageSource ms;
 
-    public MessageSourceWrapperImpl(@Autowired  MessageSource ms, @Value("${locale.name}") String localeName) {
+    public MessageSourceWrapperImpl(MessageSource ms, Locale locale) {
         this.ms = ms;
-        this.locale = new Locale(localeName, "", "");
+        this.locale = locale;
     }
 
     public String getMsg(String messageName) {

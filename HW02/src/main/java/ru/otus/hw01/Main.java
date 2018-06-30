@@ -1,9 +1,12 @@
 package ru.otus.hw01;
 
-import org.springframework.context.MessageSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import ru.otus.hw01.i18n.MessageSourceWrapperImpl;
 import ru.otus.hw01.interfaces.services.TestsExecutorService;
+
+import java.util.Locale;
 
 @Configuration
 @ComponentScan
@@ -11,11 +14,12 @@ import ru.otus.hw01.interfaces.services.TestsExecutorService;
 public class Main {
 
     @Bean
-    public MessageSource messageSource(){
+    public MessageSourceWrapperImpl messageSourceWrapper(@Value("#{T(java.util.Locale).forLanguageTag('${locale.language.tag}')}") Locale locale){
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("/i18n/bundle");
-        ms.setDefaultEncoding("CP1251");
-        return ms;
+        ms.setDefaultEncoding("UTF-8");
+
+        return new MessageSourceWrapperImpl(ms, locale);
     }
 
     public static void main(String[] args) throws Exception {
