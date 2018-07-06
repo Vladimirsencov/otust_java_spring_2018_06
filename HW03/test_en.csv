@@ -1,0 +1,26 @@
+ROW_TYPE,PARENT_ID,ID,TEXT,EXT_INFO
+t,0,1,Some test,3
+
+q,1,1,Start the title of the book '... to the Galaxy'?,true
+a,1,1,User’ Guide,false
+a,1,2,The Hitchhiker’s Guide,true
+
+q,1,2,Is it true that the author of the book 'The Hitchhiker's Guide to the Galaxy' is called Douglas Adams?,true
+a,2,3,Yes,true
+a,2,4,No,false
+
+q,1,3,What has become of the missiles?,false
+a,3,5,In a vase of petunias,true
+a,3,6,In yogurt,false
+a,3,7,In pumice stone,false
+a,3,8,In a very-very-surprised whale,true
+
+q,1,4,Who say 'So Long, and Thanks for all the Fish'?,true
+a,4,9,Dolphins,true
+a,4,10,Mermaids,false
+a,4,11,Igor Nikoayev,false
+
+q,1,5,"What answer to the Ultimate Question of Life, the Universe, and Everything?",true
+a,5,12,42,true
+a,5,13,Gladiolus,false
+a,5,14,Avada Kedavra,false
