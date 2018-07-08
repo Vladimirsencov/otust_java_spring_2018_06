@@ -18,10 +18,10 @@ import static ru.otus.hw03.TestsConsts.MSG_UNEXPECTED_RESULT;
 public class DataStorageServiceImplTest {
 
     @MockBean
-    TestsDAO testsDAO;
+    private TestsDAO testsDAO;
 
     @Autowired
-    DataStorageService dataStorageService;
+    private DataStorageService dataStorageService;
 
     @Test
     public void getTest() throws Exception {
