@@ -3,6 +3,7 @@ package ru.otus.hw03.services;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,12 +20,14 @@ public class DataStorageServiceImplTest {
     @MockBean
     TestsDAO testsDAO;
 
+    @Autowired
+    DataStorageService dataStorageService;
+
     @Test
     public void getTest() throws Exception {
         ru.otus.hw03.models.Test expectedTest = new ru.otus.hw03.models.Test(1L, "AnyTest", 1, null);
         when(testsDAO.getOne(1L)).thenReturn(expectedTest);
         when(testsDAO.getOne(2L)).thenReturn(null);
-        DataStorageService dataStorageService = new DataStorageServiceImpl(testsDAO);
 
         String msg = String.format(MSG_UNEXPECTED_RESULT, "DataStorageServiceImplTest", "getTest");
         Assert.assertEquals(msg, expectedTest, dataStorageService.getTest(1L));
