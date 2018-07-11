@@ -1,0 +1,3 @@
+application:
+  csv-file-location-template: test%s.csv
+  locale: ru-RU
