@@ -5,9 +5,8 @@ import org.junit.Test;
 import ru.otus.hw04.models.Question;
 import ru.otus.hw04.models.QuestionAnswer;
 
-import java.io.StringReader;
+import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static ru.otus.hw04.TestsConsts.MSG_UNEXPECTED_RESULT;
 
@@ -37,25 +36,6 @@ public class CSVTestsReaderTest {
         return tests;
     }
 
-    private String prepareCSVData(ru.otus.hw04.models.Test[] expectedTestsArr){
-        List<String> csvTextList = new ArrayList<>();
-        for (int i = 0; i < expectedTestsArr.length; i++) {
-            csvTextList.add(String.format("t,0,%d,%s,%d", expectedTestsArr[i].getId(), expectedTestsArr[i].getName(), expectedTestsArr[i].getCorrectQuestionsToPass()));
-            for (Question q: expectedTestsArr[i].getQuestions()) {
-                csvTextList.add(String.format("q,%d,%d,%s,%s", expectedTestsArr[i].getId(), q.getId(), q.getText(), q.isRadio()));
-                for (QuestionAnswer a: q.getAnswers()) {
-                    csvTextList.add(String.format("a,%d,%d,%s,%s", q.getId(), a.getId(), a.getText(), a.isCorrect()));
-                }
-            }
-        }
-
-        Collections.shuffle(csvTextList);
-        csvTextList.add(0, "ROW_TYPE,PARENT_ID,ID,TEXT,EXT_INFO");
-
-        String csvText = csvTextList.stream().collect(Collectors.joining("\n"));
-        return csvText;
-    }
-
     @Test
     public void readTests() throws Exception {
         ru.otus.hw04.models.Test[] expectedTestsArr = prepareExpectedTestsArr();
@@ -65,8 +45,8 @@ public class CSVTestsReaderTest {
 
         Map<Long, ru.otus.hw04.models.Test> actualTests = new HashMap<>();
 
-        StringReader reader = new StringReader(prepareCSVData(expectedTestsArr));
-        CSVTestsReader.readTests(reader, actualTests);
+        File testFile = new File(CSVTestsReaderTest.class.getClassLoader().getResource("test.csv").toURI());
+        CSVTestsReader.readTests(new FileReader(testFile), actualTests);
 
         Assert.assertEquals(String.format(MSG_UNEXPECTED_RESULT, "CSVTestsReaderTest", "readTests"), expectedTests, actualTests);
     }

@@ -1,0 +1,12 @@
+ROW_TYPE,PARENT_ID,ID,TEXT,EXT_INFO
+q,2,2,Вопрос 1,false
+a,2,3,Да,true
+a,1,2,Нет,false
+a,3,6,Нет,true
+q,2,3,Вопрос 2,true
+a,3,5,Да,false
+t,0,2,Тест 2,2
+q,1,1,Вопрос 1,true
+t,0,1,Тест 1,1
+a,1,1,Да,true
+a,2,4,Нет,false
