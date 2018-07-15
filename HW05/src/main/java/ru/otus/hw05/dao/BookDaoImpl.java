@@ -1,7 +1,10 @@
 package ru.otus.hw05.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw05.dao.mappers.AuthorRowMapper;
 import ru.otus.hw05.dao.mappers.BookRowMapper;
@@ -13,10 +16,10 @@ import ru.otus.hw05.models.Author;
 import ru.otus.hw05.models.Book;
 import ru.otus.hw05.models.Genre;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static ru.otus.hw05.dao.DBConsts.*;
 
@@ -99,7 +102,22 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return null;
+        List<Book> books = ops.query(String.format("select * from %s order by %s, %s", TBL_BOOKS, F_PUB_YEAR, F_NAME), new BookRowMapper());
+        Map<Long, Book> bookMap = books.stream().collect(Collectors.toMap(Book::getId, book -> book));
+
+        ops.query(String.format(TEMPLATE_SELECT_ALL_FROM_RELATIONS_TABLES_SQL, F_BOOK_ID, F_ID, F_NAME, TBL_BOOKS_AUTHORS, TBL_AUTHORS, F_AUTHOR_ID), rs -> {
+            if (bookMap.containsKey(rs.getLong(F_BOOK_ID))) {
+                bookMap.get(rs.getLong(F_BOOK_ID)).getAuthors().add(new Author(rs.getLong(F_ID), rs.getString(F_NAME)));
+            }
+        });
+
+        ops.query(String.format(TEMPLATE_SELECT_ALL_FROM_RELATIONS_TABLES_SQL, F_BOOK_ID, F_ID, F_NAME, TBL_BOOKS_GENRES, TBL_GENRES, F_GENRE_ID), rs -> {
+            if (bookMap.containsKey(rs.getLong(F_BOOK_ID))) {
+                bookMap.get(rs.getLong(F_BOOK_ID)).getGenres().add(new Genre(rs.getLong(F_ID), rs.getString(F_NAME)));
+            }
+        });
+
+        return books;
     }
 
     private Map<String, Object> book2ParamsMap(Book book, boolean addId) {

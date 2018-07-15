@@ -22,6 +22,8 @@ public class DBConsts {
     public static final String TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL = "select %s from %s where %s = :%s";
     public static final String TEMPLATE_INSERT_INTO_RELATIONS_TABLES_SQL = "insert into %s(%s, %s) values(?, ?)";
 
-    public static final String TEMPLATE_SELECT_FROM_RELATIONS_TABLES_SQL = "select src.%1$s, src.%2$s from %3$s rel left join %4$s src on rel.%5$s = src.%1$s where rel.%6$s = :%6$s";
+    public static final String TEMPLATE_SELECT_FROM_RELATIONS_TABLES_SQL     = "select src.%1$s, src.%2$s from %3$s rel left join %4$s src on rel.%5$s = src.%1$s where rel.%6$s = :%6$s";
+    public static final String TEMPLATE_SELECT_ALL_FROM_RELATIONS_TABLES_SQL = "select rel.%1$s, src.%2$s, src.%3$s from %4$s rel left join %5$s src on rel.%6$s = src.%2$s order by rel.%1$s, src.%3$s";
+
 
 }

@@ -11,6 +11,7 @@ import ru.otus.hw05.models.Book;
 import ru.otus.hw05.models.Genre;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootApplication
@@ -60,6 +61,12 @@ public class Hw05Application {
         book = bookDao.save(book);
         System.out.println(book);
 
+        authors = Collections.singletonList(new Author(null, "Evgeny"));
+        genres = Collections.singletonList(new Genre(null, "Detective"));
+        book = new Book(null, "book3", "none", 2005, authors, genres);
+        bookDao.save(book);
+        List<Book> books = bookDao.getAll();
+        System.out.println(books);
 
     }
 }
