@@ -70,7 +70,7 @@ public class GenreDaoImpl implements GenreDao {
         Map<String, Object> params = Collections.singletonMap(F_NAME, name);
         Long id = - 1L;
         try {
-            ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, F_ID, TBL_GENRES, F_NAME, F_NAME), params, Long.class);
+            id = ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, F_ID, TBL_GENRES, F_NAME, F_NAME), params, Long.class);
         } catch (EmptyResultDataAccessException ignored){
         }
         return id;
