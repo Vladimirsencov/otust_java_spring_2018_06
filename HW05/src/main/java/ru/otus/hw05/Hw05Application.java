@@ -23,7 +23,7 @@ public class Hw05Application {
         AuthorDao authorDao = ctx.getBean(AuthorDao.class);
         GenreDao genreDao = ctx.getBean(GenreDao.class);
         BookDao bookDao = ctx.getBean(BookDao.class);
-/*
+
         Author author = new Author(null, "Vasya");
         author = authorDao.save(author);
         System.out.println(author);
@@ -40,7 +40,6 @@ public class Hw05Application {
         genre.setName("Fantasy");
         genre = genreDao.save(genre);
         System.out.println(genre);
-*/
 
         List<Author> authors = new ArrayList<>();
         authors.add(new Author(null, "Vasya"));

@@ -1,6 +1,7 @@
 package ru.otus.hw05.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw05.dao.mappers.GenreRowMapper;
@@ -67,21 +68,32 @@ public class GenreDaoImpl implements GenreDao {
     @Override
     public long getIdByName(String name) {
         Map<String, Object> params = Collections.singletonMap(F_NAME, name);
-        Long id = ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, F_ID, TBL_GENRES, F_NAME, F_NAME), params, Long.class);
-        return id == null? - 1: id;
+        Long id = - 1L;
+        try {
+            ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, F_ID, TBL_GENRES, F_NAME, F_NAME), params, Long.class);
+        } catch (EmptyResultDataAccessException ignored){
+        }
+        return id;
     }
 
     @Override
     public Genre getById(long id) {
         Map<String, Object> params = Collections.singletonMap(F_ID, id);
-        return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_ID, F_ID), params, new GenreRowMapper());
-
+        try {
+            return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_ID, F_ID), params, new GenreRowMapper());
+        } catch (EmptyResultDataAccessException ignored){
+        }
+        return null;
     }
 
     @Override
     public Genre getByName(String name) {
         Map<String, Object> params = Collections.singletonMap(F_NAME, name);
-        return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_NAME, F_NAME), params, new GenreRowMapper());
+        try {
+            return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_NAME, F_NAME), params, new GenreRowMapper());
+        } catch (EmptyResultDataAccessException ignored){
+        }
+        return null;
     }
 
 }

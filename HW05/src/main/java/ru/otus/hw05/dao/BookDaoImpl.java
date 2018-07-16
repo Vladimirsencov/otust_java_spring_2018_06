@@ -1,6 +1,7 @@
 package ru.otus.hw05.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -86,10 +87,14 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getById(long id) {
         Map<String, Object> params = Collections.singletonMap(F_ID, id);
-        Book book = ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_BOOKS, F_ID, F_ID), params, new BookRowMapper());
-        book.setAuthors(getBookAuthors(book.getId()));
-        book.setGenres(getBookGenres(book.getId()));
-        return book;
+        try {
+            Book book = ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_BOOKS, F_ID, F_ID), params, new BookRowMapper());
+            book.setAuthors(getBookAuthors(book.getId()));
+            book.setGenres(getBookGenres(book.getId()));
+            return book;
+        } catch (EmptyResultDataAccessException ignored){
+        }
+        return null;
     }
 
     @Override
@@ -97,7 +102,11 @@ public class BookDaoImpl implements BookDao {
         Map<String, Object> params = new HashMap<>(1);
         params.put(F_NAME, name);
         params.put(F_DESCRIPTION, description);
-        return ops.queryForObject(String.format("select %1$s from %2$s where %3$s = :%3$s and %4$s = %4$s", F_ID, TBL_BOOKS, F_NAME, F_DESCRIPTION), params, Long.class);
+        try {
+            return ops.queryForObject(String.format("select %1$s from %2$s where %3$s = :%3$s and %4$s = %4$s", F_ID, TBL_BOOKS, F_NAME, F_DESCRIPTION), params, Long.class);
+        } catch (EmptyResultDataAccessException ignored){
+        }
+        return null;
     }
 
     @Override
