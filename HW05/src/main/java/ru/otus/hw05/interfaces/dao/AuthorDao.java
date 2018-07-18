@@ -8,7 +8,7 @@ public interface AuthorDao {
     Author insert(Author author);
     Author update(Author author);
     Author save(Author author);
-    List<Author> save(List<Author> authors);
+    List<Author> saveList(List<Author> authors);
 
     boolean remove(long id);
     long getIdByName(String name);

@@ -2,10 +2,7 @@ package ru.otus.hw05.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw05.dao.mappers.AuthorRowMapper;
 import ru.otus.hw05.dao.mappers.BookRowMapper;
@@ -17,8 +14,6 @@ import ru.otus.hw05.models.Author;
 import ru.otus.hw05.models.Book;
 import ru.otus.hw05.models.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -157,7 +152,7 @@ public class BookDaoImpl implements BookDao {
             return;
         }
 
-        List<Author> savedAuthors = authorDao.save(authors);
+        List<Author> savedAuthors = authorDao.saveList(authors);
         ops.getJdbcOperations().batchUpdate(String.format(TEMPLATE_INSERT_INTO_RELATIONS_TABLES_SQL, TBL_BOOKS_AUTHORS, F_BOOK_ID, F_AUTHOR_ID), savedAuthors, savedAuthors.size(), (ps, a) -> {
             ps.setLong(1, bookId);
             ps.setLong(2, a.getId());

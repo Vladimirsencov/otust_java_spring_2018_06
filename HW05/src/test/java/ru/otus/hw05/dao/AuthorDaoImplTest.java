@@ -24,7 +24,6 @@ import static ru.otus.hw05.dao.DAOTestConst.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AuthorDaoImplTest {
-
     @SpyBean
     @Autowired
     private AuthorDao authorDao;
@@ -63,7 +62,7 @@ public class AuthorDaoImplTest {
         authors.add(new Author(null, TEST_AUTHOR_NAME));
         authors.add(new Author(null, TEST_AUTHOR_NAME2));
 
-        List<Author> insertedAuthors = authorDao.save(authors);
+        List<Author> insertedAuthors = authorDao.saveList(authors);
         insertedAuthors.sort(Comparator.comparingLong(Author::getId));
         authors.get(0).setId(1L);
         authors.get(1).setId(2L);

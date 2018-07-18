@@ -50,7 +50,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public List<Author> save(List<Author> authors) {
+    public List<Author> saveList(List<Author> authors) {
         List<Author> savedAuthors = new ArrayList<>();
         for (Author a: authors) {
             savedAuthors.add(save(a));
