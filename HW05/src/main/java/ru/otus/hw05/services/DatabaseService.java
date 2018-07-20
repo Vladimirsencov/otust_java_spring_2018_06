@@ -11,6 +11,7 @@ import ru.otus.hw05.models.Book;
 import ru.otus.hw05.models.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DatabaseService implements DataStorageService {
@@ -26,19 +27,18 @@ public class DatabaseService implements DataStorageService {
         this.bookDao = bookDao;
     }
 
-
     @Override
-    public Author insertAuthor(Author author) {
+    public Optional<Author> insertAuthor(Author author) {
         return authorDao.insert(author);
     }
 
     @Override
-    public Author updateAuthor(Author author) {
+    public Optional<Author> updateAuthor(Author author) {
         return authorDao.update(author);
     }
 
     @Override
-    public Author saveAuthor(Author author) {
+    public Optional<Author> saveAuthor(Author author) {
         return authorDao.save(author);
     }
 
@@ -58,27 +58,27 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public Author getAuthorById(long id) {
+    public Optional<Author> getAuthorById(long id) {
         return authorDao.getById(id);
     }
 
     @Override
-    public Author getAuthorByName(String name) {
+    public Optional<Author> getAuthorByName(String name) {
         return authorDao.getByName(name);
     }
 
     @Override
-    public Book insertBook(Book book) {
+    public Optional<Book> insertBook(Book book) {
         return bookDao.insert(book);
     }
 
     @Override
-    public Book updateBook(Book book) {
+    public Optional<Book> updateBook(Book book) {
         return bookDao.update(book);
     }
 
     @Override
-    public Book saveBook(Book book) {
+    public Optional<Book> saveBook(Book book) {
         return bookDao.save(book);
     }
 
@@ -88,12 +88,12 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public Book getBookById(long id) {
+    public Optional<Book> getBookById(long id) {
         return bookDao.getById(id);
     }
 
     @Override
-    public Long getBookIdByNameAndDescription(String name, String description) {
+    public Optional<Long> getBookIdByNameAndDescription(String name, String description) {
         return bookDao.getIdByNameAndDescription(name, description);
     }
 
@@ -103,17 +103,17 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public Genre insertGenre(Genre genre) {
+    public Optional<Genre> insertGenre(Genre genre) {
         return genreDao.insert(genre);
     }
 
     @Override
-    public Genre updateGenre(Genre genre) {
+    public Optional<Genre> updateGenre(Genre genre) {
         return genreDao.update(genre);
     }
 
     @Override
-    public Genre saveGenre(Genre genre) {
+    public Optional<Genre> saveGenre(Genre genre) {
         return genreDao.save(genre);
     }
 
@@ -133,12 +133,12 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public Genre getGenreById(long id) {
+    public Optional<Genre> getGenreById(long id) {
         return genreDao.getById(id);
     }
 
     @Override
-    public Genre getGenreByName(String name) {
+    public Optional<Genre> getGenreByName(String name) {
         return genreDao.getByName(name);
     }
 }

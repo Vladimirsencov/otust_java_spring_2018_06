@@ -11,8 +11,6 @@ import ru.otus.hw05.models.Genre;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ru.otus.hw05.dao.DBConsts.*;
-
 @Repository
 public class GenreDaoImpl implements GenreDao {
 
@@ -24,24 +22,24 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public Genre insert(Genre genre) {
-        Map<String, Object> params = Collections.singletonMap(F_NAME, genre.getName());
-        ops.update(String.format(TEMPLATE_INSERT_ID_NAME_REC_SQL, TBL_GENRES, F_NAME), params);
+    public Optional<Genre> insert(Genre genre) {
+        Map<String, Object> params = Collections.singletonMap("name", genre.getName());
+        ops.update("insert into genres(name) (select :name where not exists(select 1 from genres where name = :name))", params);
         return getByName(genre.getName());
     }
 
     @Override
-    public Genre update(Genre genre) {
+    public Optional<Genre> update(Genre genre) {
         Map<String, Object> params = new HashMap<>(1);
         params.put("id", genre.getId());
         params.put("name", genre.getName());
-        ops.update(String.format(TEMPLATE_UPDATE_ID_NAME_REC_SQL, TBL_GENRES, F_NAME, F_ID), params);
+        ops.update("update genres set name = :name where id = :id", params);
         return getById(genre.getId());
 
     }
 
     @Override
-    public Genre save(Genre genre) {
+    public Optional<Genre> save(Genre genre) {
         if (genre.getId() != null && genre.getId() > 0) {
             return update(genre);
         } else {
@@ -53,47 +51,47 @@ public class GenreDaoImpl implements GenreDao {
     public List<Genre> save(List<Genre> genres) {
         List<Genre> savedGenres = new ArrayList<>();
         for (Genre g: genres) {
-            savedGenres.add(save(g));
+            save(g).ifPresent(genre -> savedGenres.add(genre));
         }
         return savedGenres.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
     public boolean remove(long id) {
-        Map<String, Object> params = Collections.singletonMap(F_ID, id);
-        return ops.update(String.format(TEMPLATE_REMOVE_BY_ID_SQL, TBL_GENRES, F_ID, F_ID), params) == 1;
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        return ops.update("delete from genres where id = :id", params) == 1;
 
     }
 
     @Override
     public long getIdByName(String name) {
-        Map<String, Object> params = Collections.singletonMap(F_NAME, name);
+        Map<String, Object> params = Collections.singletonMap("name", name);
         Long id = - 1L;
         try {
-            id = ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, F_ID, TBL_GENRES, F_NAME, F_NAME), params, Long.class);
+            id = ops.queryForObject("select id from genres where name = :name", params, Long.class);
         } catch (EmptyResultDataAccessException ignored){
         }
         return id;
     }
 
     @Override
-    public Genre getById(long id) {
-        Map<String, Object> params = Collections.singletonMap(F_ID, id);
+    public Optional<Genre> getById(long id) {
+        Map<String, Object> params = Collections.singletonMap("id", id);
         try {
-            return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_ID, F_ID), params, new GenreRowMapper());
+            return Optional.ofNullable(ops.queryForObject("select * from genres where id = :id", params, new GenreRowMapper()));
         } catch (EmptyResultDataAccessException ignored){
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public Genre getByName(String name) {
-        Map<String, Object> params = Collections.singletonMap(F_NAME, name);
+    public Optional<Genre> getByName(String name) {
+        Map<String, Object> params = Collections.singletonMap("name", name);
         try {
-            return ops.queryForObject(String.format(TEMPLATE_SELECT_WITH_ONE_CONDITION_SQL, "*", TBL_GENRES, F_NAME, F_NAME), params, new GenreRowMapper());
+            return Optional.ofNullable(ops.queryForObject("select * from genres where name = :name", params, new GenreRowMapper()));
         } catch (EmptyResultDataAccessException ignored){
         }
-        return null;
+        return Optional.empty();
     }
 
 }

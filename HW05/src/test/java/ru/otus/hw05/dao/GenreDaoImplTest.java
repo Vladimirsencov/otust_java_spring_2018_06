@@ -30,16 +30,16 @@ public class GenreDaoImplTest {
     @Test
     public void insert() throws Exception {
         Genre Genre = new Genre(null, TEST_GENRE_NAME);
-        Genre insertedGenre = genreDao.insert(Genre);
+        Genre insertedGenre = genreDao.insert(Genre).orElse(null);
         assertTrue(insertedGenre != null && insertedGenre.getId() != null && insertedGenre.getId() == 1L);
     }
 
     @Test
     public void update() throws Exception {
         Genre Genre = new Genre(null, TEST_GENRE_NAME);
-        Genre = genreDao.insert(Genre);
+        Genre = genreDao.insert(Genre).orElse(null);
         Genre.setName(TEST_GENRE_NAME2);
-        Genre updatedGenre = genreDao.update(Genre);
+        Genre updatedGenre = genreDao.update(Genre).orElse(null);
         assertNotNull(updatedGenre);
         assertEquals(TEST_GENRE_NAME2, updatedGenre.getName());
     }
@@ -47,7 +47,7 @@ public class GenreDaoImplTest {
     @Test
     public void save() throws Exception {
         Genre genre = new Genre(null, TEST_GENRE_NAME);
-        Genre insertedGenre = genreDao.save(genre);
+        Genre insertedGenre = genreDao.save(genre).orElse(null);
         verify(genreDao).insert(any());
 
         genreDao.save(insertedGenre);
@@ -71,10 +71,10 @@ public class GenreDaoImplTest {
     public void remove() throws Exception {
         Genre genre = new Genre(null, TEST_GENRE_NAME);
         genreDao.save(genre);
-        genre = genreDao.getById(1L);
+        genre = genreDao.getById(1L).orElse(null);
         assertNotNull(genre);
         genreDao.remove(1L);
-        genre = genreDao.getById(1L);
+        genre = genreDao.getById(1L).orElse(null);
         assertNull(genre);
     }
 
@@ -84,7 +84,7 @@ public class GenreDaoImplTest {
         assertEquals(- 1L, id);
 
         Genre genre = new Genre(null, TEST_GENRE_NAME);
-        genre = genreDao.save(genre);
+        genre = genreDao.save(genre).orElse(null);
         System.out.println(genre);
 
         id = genreDao.getIdByName(TEST_GENRE_NAME);
@@ -95,7 +95,7 @@ public class GenreDaoImplTest {
     public void getById() throws Exception {
         Genre genre = new Genre(null, TEST_GENRE_NAME);
         genreDao.save(genre);
-        Genre insertedGenre = genreDao.getById(1L);
+        Genre insertedGenre = genreDao.getById(1L).orElse(null);
         assertNotNull(insertedGenre);
 
         genre.setId(1L);
@@ -106,7 +106,7 @@ public class GenreDaoImplTest {
     public void getByName() throws Exception {
         Genre genre = new Genre(null, TEST_GENRE_NAME);
         genreDao.save(genre);
-        Genre insertedGenre = genreDao.getByName(TEST_GENRE_NAME);
+        Genre insertedGenre = genreDao.getByName(TEST_GENRE_NAME).orElse(null);
         assertNotNull(insertedGenre);
 
         genre.setId(1L);

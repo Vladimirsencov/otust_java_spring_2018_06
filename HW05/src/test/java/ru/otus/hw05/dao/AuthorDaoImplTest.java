@@ -24,6 +24,8 @@ import static ru.otus.hw05.dao.DAOTestConst.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AuthorDaoImplTest {
+    private static final long FIRST_TEST_AUTHOR_ID = 1L;
+    private static final long SECOND_TEST_AUTHOR_ID = 2L;
     @SpyBean
     @Autowired
     private AuthorDao authorDao;
@@ -31,16 +33,16 @@ public class AuthorDaoImplTest {
     @Test
     public void insert() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
-        Author insertedAuthor = authorDao.insert(author);
-        assertTrue(insertedAuthor != null && insertedAuthor.getId() != null && insertedAuthor.getId() == 1L);
+        Author insertedAuthor = authorDao.insert(author).orElse(null);
+        assertTrue(insertedAuthor != null && insertedAuthor.getId() != null && insertedAuthor.getId() == FIRST_TEST_AUTHOR_ID);
     }
 
     @Test
     public void update() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
-        author = authorDao.insert(author);
+        author = authorDao.insert(author).orElse(null);
         author.setName(TEST_AUTHOR_NAME2);
-        Author updatedAuthor = authorDao.update(author);
+        Author updatedAuthor = authorDao.update(author).orElse(null);
         assertNotNull(updatedAuthor);
         assertEquals(TEST_AUTHOR_NAME2, updatedAuthor.getName());
     }
@@ -49,7 +51,7 @@ public class AuthorDaoImplTest {
     public void save() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
 
-        Author insertedAuthor = authorDao.save(author);
+        Author insertedAuthor = authorDao.save(author).orElse(null);
         verify(authorDao).insert(any());
 
         authorDao.save(insertedAuthor);
@@ -64,8 +66,8 @@ public class AuthorDaoImplTest {
 
         List<Author> insertedAuthors = authorDao.saveList(authors);
         insertedAuthors.sort(Comparator.comparingLong(Author::getId));
-        authors.get(0).setId(1L);
-        authors.get(1).setId(2L);
+        authors.get(0).setId(FIRST_TEST_AUTHOR_ID);
+        authors.get(1).setId(SECOND_TEST_AUTHOR_ID);
 
         assertEquals(authors, insertedAuthors);
     }
@@ -74,33 +76,33 @@ public class AuthorDaoImplTest {
     public void remove() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
         authorDao.save(author);
-        author = authorDao.getById(1L);
+        author = authorDao.getById(FIRST_TEST_AUTHOR_ID).orElse(null);
         assertNotNull(author);
-        authorDao.remove(1L);
-        author = authorDao.getById(1L);
+        authorDao.remove(FIRST_TEST_AUTHOR_ID);
+        author = authorDao.getById(FIRST_TEST_AUTHOR_ID).orElse(null);
         assertNull(author);
     }
 
     @Test
     public void getIdByName() throws Exception {
         long id = authorDao.getIdByName(TEST_AUTHOR_NAME);
-        assertEquals(- 1L, id);
+        assertEquals(-FIRST_TEST_AUTHOR_ID, id);
 
         Author author = new Author(null, TEST_AUTHOR_NAME);
         authorDao.save(author);
 
         id = authorDao.getIdByName(TEST_AUTHOR_NAME);
-        assertEquals(1L, id);
+        assertEquals(FIRST_TEST_AUTHOR_ID, id);
     }
 
     @Test
     public void getById() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
         authorDao.save(author);
-        Author insertedAuthor = authorDao.getById(1L);
+        Author insertedAuthor = authorDao.getById(FIRST_TEST_AUTHOR_ID).orElse(null);
         assertNotNull(insertedAuthor);
 
-        author.setId(1L);
+        author.setId(FIRST_TEST_AUTHOR_ID);
         assertEquals(author, insertedAuthor);
     }
 
@@ -108,10 +110,10 @@ public class AuthorDaoImplTest {
     public void getByName() throws Exception {
         Author author = new Author(null, TEST_AUTHOR_NAME);
         authorDao.save(author);
-        Author insertedAuthor = authorDao.getByName(TEST_AUTHOR_NAME);
+        Author insertedAuthor = authorDao.getByName(TEST_AUTHOR_NAME).orElse(null);
         assertNotNull(insertedAuthor);
 
-        author.setId(1L);
+        author.setId(FIRST_TEST_AUTHOR_ID);
         assertEquals(author, insertedAuthor);
     }
 

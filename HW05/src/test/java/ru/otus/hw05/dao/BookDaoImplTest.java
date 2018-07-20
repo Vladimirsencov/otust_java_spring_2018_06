@@ -51,13 +51,13 @@ public class BookDaoImplTest {
 
     @Test
     public void insert() throws Exception {
-        Book insertedBook = bookDao.insert(testBook);
+        Book insertedBook = bookDao.insert(testBook).orElse(null);
         assertTrue(insertedBook != null && insertedBook.getId() != null && insertedBook.getId() == 1L);
     }
 
     @Test
     public void update() throws Exception {
-        Book insertedBook = bookDao.insert(testBook);
+        Book insertedBook = bookDao.insert(testBook).orElse(null);
 
         insertedBook.setName(TEST_BOOK_NAME2);
         insertedBook.setDescription(TEST_BOOK_DESC2);
@@ -65,7 +65,7 @@ public class BookDaoImplTest {
         insertedBook.getAuthors().add(new Author(null, TEST_AUTHOR_NAME3));
         insertedBook.getGenres().add(new Genre(null, TEST_GENRE_NAME3));
 
-        Book updatedBook = bookDao.update(insertedBook);
+        Book updatedBook = bookDao.update(insertedBook).orElse(null);
         sortBookAuthorsAndGenresById(updatedBook);
 
         insertedBook.getAuthors().get(2).setId(3L);
@@ -75,7 +75,7 @@ public class BookDaoImplTest {
 
     @Test
     public void save() throws Exception {
-        Book insertedBook = bookDao.save(testBook);
+        Book insertedBook = bookDao.save(testBook).orElse(null);
         verify(bookDao).insert(any());
 
         bookDao.save(insertedBook);
@@ -84,11 +84,11 @@ public class BookDaoImplTest {
 
     @Test
     public void remove() throws Exception {
-        Book insertedBook = bookDao.save(testBook);
+        Book insertedBook = bookDao.save(testBook).orElse(null);
         assertNotNull(insertedBook);
 
         bookDao.remove(1L);
-        insertedBook = bookDao.getById(1L);
+        insertedBook = bookDao.getById(1L).orElse(null);
         assertNull(insertedBook);
     }
 
@@ -99,14 +99,14 @@ public class BookDaoImplTest {
         bookDao.save(testBook);
         testBook.setId(1L);
 
-        Book insertedBook = bookDao.getById(1L);
+        Book insertedBook = bookDao.getById(1L).orElse(null);
         assertEquals(testBook, insertedBook);
     }
 
     @Test
     public void getIdByNameAndDescription() throws Exception {
         bookDao.save(testBook);
-        long id = bookDao.getIdByNameAndDescription(testBook.getName(), testBook.getDescription());
+        long id = bookDao.getIdByNameAndDescription(testBook.getName(), testBook.getDescription()).orElse(0L);
         assertEquals(1L, id);
     }
 
@@ -116,8 +116,8 @@ public class BookDaoImplTest {
                 Collections.singletonList(new Author(null, TEST_AUTHOR_NAME3)),
                 Collections.singletonList(new Genre(null, TEST_GENRE_NAME3)));
 
-        testBook = bookDao.save(testBook);
-        testBook2 = bookDao.save(testBook2);
+        testBook = bookDao.save(testBook).orElse(null);
+        testBook2 = bookDao.save(testBook2).orElse(null);
 
         List<Book> expectedBooks = Arrays.asList(testBook, testBook2);
         List<Book> actualBooks = bookDao.getAll();

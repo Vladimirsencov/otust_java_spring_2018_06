@@ -54,7 +54,7 @@ public class BookCommands {
             return;
         }
 
-        Book book = dataStorageService.getBookById(bookId);
+        Book book = dataStorageService.getBookById(bookId).orElseGet(null);
         if (book == null) {
             System.err.println(messageSourceWrapper.getMsg(ERR_BOOK_NOT_FOUND));
             return;
