@@ -11,6 +11,7 @@ import ru.otus.hw05.models.Book;
 import ru.otus.hw05.models.Genre;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ShellComponent
@@ -54,23 +55,20 @@ public class BookCommands {
             return;
         }
 
-        Book book = dataStorageService.getBookById(bookId).orElseGet(null);
-        if (book == null) {
-            System.err.println(messageSourceWrapper.getMsg(ERR_BOOK_NOT_FOUND));
-            return;
-        }
-
-        book = applyCommandParameters2Book(book, name, description, pubYear, authors, genres);
-        dataStorageService.saveBook(book);
+        dataStorageService.getBookById(bookId).map(b -> dataStorageService.saveBook(applyCommandParameters2Book(b, name, description, pubYear, authors, genres)))
+                .orElseGet(() -> {
+                    System.err.println(messageSourceWrapper.getMsg(ERR_BOOK_NOT_FOUND));
+                    return Optional.empty();
+                });
     }
 
     @ShellMethod("RemoveBook")
-    public void removeBook(@ShellOption long bookId){
+    public void removeBook(@ShellOption long bookId) {
         dataStorageService.removeBook(bookId);
     }
 
     @ShellMethod("ListBooks")
-    public String listBooks(){
+    public String listBooks() {
         List<Book> books = dataStorageService.getAllBooks();
         StringBuilder builder = new StringBuilder();
         books.forEach(book -> {
