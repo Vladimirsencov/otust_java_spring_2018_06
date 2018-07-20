@@ -40,15 +40,12 @@ public class BookDaoImpl implements BookDao {
 
         ops.update("insert into books(name, description, pub_year) (select :name, :description, :pub_year where not exists(select 1 from books where name = :name and description = :description))", params);
 
-        Long id = getIdByNameAndDescription(book.getName(), book.getDescription()).orElse(null);
-        if (id == null) {
-            return Optional.empty();
-        }
+        return getIdByNameAndDescription(book.getName(), book.getDescription()).flatMap(id -> {
+            insertBookAuthors(id, book.getAuthors());
+            insertBookGenres(id, book.getGenres());
+            return getById(id);
+        });
 
-        insertBookAuthors(id, book.getAuthors());
-        insertBookGenres(id, book.getGenres());
-
-        return getById(id);
     }
 
     @Override
@@ -112,7 +109,6 @@ public class BookDaoImpl implements BookDao {
     public List<Book> getAll() {
         List<Book> books = ops.query("select * from books order by pub_year, name", new BookRowMapper());
         Map<Long, Book> bookMap = books.stream().collect(Collectors.toMap(Book::getId, book -> book));
-
 
         ops.query("select rel.book_id, src.id, src.name from books_authors rel left join authors src on rel.author_id = src.id order by rel.book_id, src.name", rs -> {
             if (bookMap.containsKey(rs.getLong("book_id"))) {
