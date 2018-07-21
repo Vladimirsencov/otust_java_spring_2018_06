@@ -2,10 +2,8 @@ package ru.otus.hw06.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.otus.hw06.interfaces.dao.AuthorDao;
 import ru.otus.hw06.interfaces.dao.BookCommentDao;
 import ru.otus.hw06.interfaces.dao.BookDao;
-import ru.otus.hw06.interfaces.dao.GenreDao;
 import ru.otus.hw06.interfaces.services.DataStorageService;
 import ru.otus.hw06.models.*;
 
@@ -15,15 +13,11 @@ import java.util.Optional;
 @Service
 public class DatabaseService implements DataStorageService {
 
-    private final AuthorDao authorDao;
-    private final GenreDao genreDao;
     private final BookDao bookDao;
     private final BookCommentDao commentDao;
 
     @Autowired
-    public DatabaseService(AuthorDao authorDao, GenreDao genreDao, BookDao bookDao, BookCommentDao commentDao) {
-        this.authorDao = authorDao;
-        this.genreDao = genreDao;
+    public DatabaseService(BookDao bookDao, BookCommentDao commentDao) {
         this.bookDao = bookDao;
         this.commentDao = commentDao;
     }
