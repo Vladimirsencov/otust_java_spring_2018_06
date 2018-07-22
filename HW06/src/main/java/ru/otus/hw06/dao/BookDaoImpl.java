@@ -19,21 +19,19 @@ public class BookDaoImpl implements BookDao {
     private EntityManager em;
 
     @Override
-    public Optional<Book> insert(Book book) {
+    public Book insert(Book book) {
         em.persist(book);
-        em.flush();
-        return Optional.ofNullable(book);
+        return book;
     }
 
     @Override
-    public Optional<Book> update(Book book) {
+    public Book update(Book book) {
         book = em.merge(book);
-        em.flush();
-        return Optional.of(book);
+        return book;
     }
 
     @Override
-    public Optional<Book> save(Book book) {
+    public Book save(Book book) {
         if (book.getId() != null && book.getId() > 0) {
             return update(book);
         } else {
@@ -43,26 +41,14 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public boolean remove(long id) {
-        return em.createQuery("delete from Book b where id = :id").setParameter("id", id).executeUpdate() == 1;
+    public void remove(long id) {
+        em.createQuery("delete from Book b where id = :id").setParameter("id", id).executeUpdate();
     }
 
     @Override
     public Optional<Book> getById(long id) {
         try {
             return Optional.ofNullable(em.createQuery("select b from Book b where id = :id", Book.class).setParameter("id", id).getSingleResult());
-        } catch (NoResultException ignored){
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Long> getIdByNameAndDescription(String name, String description) {
-        try {
-            return Optional.ofNullable(em.createQuery("select b.id from Book b where name = :name and description = :description", Long.class)
-                    .setParameter("name", name)
-                    .setParameter("description", description)
-                    .getSingleResult());
         } catch (NoResultException ignored){
         }
         return Optional.empty();

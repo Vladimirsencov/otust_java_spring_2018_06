@@ -17,6 +17,7 @@ import ru.otus.hw06.models.BookComment;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static ru.otus.hw06.dao.DAOTestConst.*;
@@ -48,7 +49,7 @@ public class BookCommentDaoImplTest {
 
     @Test
     public void insert() throws Exception {
-        BookComment insertedComment = commentDao.insert(testComment).orElse(null);
+        BookComment insertedComment = commentDao.insert(testComment);
         assertTrue(insertedComment != null && insertedComment.getId() != null && insertedComment.getId() == 1L);
     }
 
@@ -67,8 +68,8 @@ public class BookCommentDaoImplTest {
     @Test
     public void getAllByBookId() throws Exception {
         BookComment testComment2 = new BookComment(null, new Date(), TEST_AUTHOR_NAME2, TEST_COMMENT2, testBookBrief);
-        testComment = commentDao.insert(testComment).orElse(null);
-        testComment2 = commentDao.insert(testComment2).orElse(null);
+        testComment = commentDao.insert(testComment);
+        testComment2 = commentDao.insert(testComment2);
         List<BookComment> expectedComments = Arrays.asList(testComment, testComment2);
         List<BookComment> actualComments = commentDao.getAllByBookId(1L);
         assertEquals(expectedComments, actualComments);

@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Transactional
@@ -18,15 +17,14 @@ public class BookCommentDaoImpl implements BookCommentDao {
     private EntityManager em;
 
     @Override
-    public Optional<BookComment> insert(BookComment comment) {
+    public BookComment insert(BookComment comment) {
         em.persist(comment);
-        em.flush();
-        return Optional.ofNullable(comment);
+        return comment;
     }
 
     @Override
-    public boolean remove(long id) {
-        return em.createQuery("delete from BookComment c where id = :id").setParameter("id", id).executeUpdate() == 1;
+    public void remove(long id) {
+        em.createQuery("delete from BookComment c where id = :id").setParameter("id", id).executeUpdate();
     }
 
     @Override

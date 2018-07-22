@@ -1,6 +1,6 @@
 package ru.otus.hw06.dao;
 
-public class DAOTestConst {
+class DAOTestConst {
     static final String TEST_AUTHOR_NAME = "Vasya";
     static final String TEST_AUTHOR_NAME2 = "Igor";
     static final String TEST_AUTHOR_NAME3 = "Petya";

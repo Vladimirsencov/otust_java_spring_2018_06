@@ -10,7 +10,6 @@ import ru.otus.hw06.models.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ShellComponent
@@ -61,7 +60,7 @@ public class BookCommands {
         dataStorageService.getBookById(bookId).map(b -> dataStorageService.saveBook(applyCommandParameters2Book(b, name, description, pubYear, authors, genres)))
                 .orElseGet(() -> {
                     System.err.println(messageSourceWrapper.getMsg(ERR_BOOK_NOT_FOUND));
-                    return Optional.empty();
+                    return null;
                 });
     }
 
@@ -92,7 +91,7 @@ public class BookCommands {
     public void addComment(@ShellOption long bookId, @ShellOption String comment, @ShellOption(defaultValue = "anonimus") String author) {
         dataStorageService.getBookBriefById(bookId).map(b -> dataStorageService.insertBookComment(new BookComment(null, new Date(), author, comment, b))).orElseGet(() -> {
             System.err.println(messageSourceWrapper.getMsg(ERR_BOOK_NOT_FOUND));
-            return Optional.empty();
+            return null;
         });
     }
 

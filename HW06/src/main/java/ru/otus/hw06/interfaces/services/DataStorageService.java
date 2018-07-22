@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface DataStorageService {
 
-    Optional<Book> saveBook(Book book);
-    boolean removeBook(long id);
+    Book saveBook(Book book);
+    void removeBook(long id);
     Optional<Book> getBookById(long id);
     List<Book> getAllBooks();
     Optional<BookBrief> getBookBriefById(long id);
 
-    Optional<BookComment> insertBookComment(BookComment comment);
-    boolean removeBookComment(long id);
+    BookComment insertBookComment(BookComment comment);
+    void removeBookComment(long id);
     List<BookComment> getAllBookCommentsByBookId(long bookId);
 }

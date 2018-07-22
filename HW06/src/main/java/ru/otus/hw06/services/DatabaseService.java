@@ -24,13 +24,13 @@ public class DatabaseService implements DataStorageService {
 
 
     @Override
-    public Optional<Book> saveBook(Book book) {
+    public Book saveBook(Book book) {
         return bookDao.save(book);
     }
 
     @Override
-    public boolean removeBook(long id) {
-        return bookDao.remove(id);
+    public void removeBook(long id) {
+        bookDao.remove(id);
     }
 
     @Override
@@ -49,13 +49,13 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public Optional<BookComment> insertBookComment(BookComment comment) {
+    public BookComment insertBookComment(BookComment comment) {
         return commentDao.insert(comment);
     }
 
     @Override
-    public boolean removeBookComment(long id) {
-        return commentDao.remove(id);
+    public void removeBookComment(long id) {
+        commentDao.remove(id);
     }
 
     @Override
