@@ -57,6 +57,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this);
+        return Objects.hash(this);
     }
 }
