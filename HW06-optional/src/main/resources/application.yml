@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+application:
+  locale: ru-RU
