@@ -12,15 +12,15 @@ import java.sql.SQLException;
 
 @SpringBootApplication
 public class Hw06Application {
-	@Bean
-	public MessageSourceWrapper messageSourceWrapper(@Autowired ApplicationSettings settings) {
-		ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-		ms.setBasename("/i18n/bundle");
-		ms.setDefaultEncoding("UTF-8");
-		return new MessageSourceWrapperImpl(ms, settings.getLocale());
-	}
+    @Bean
+    public MessageSourceWrapper messageSourceWrapper(@Autowired ApplicationSettings settings) {
+        ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+        ms.setBasename("/i18n/bundle");
+        ms.setDefaultEncoding("UTF-8");
+        return new MessageSourceWrapperImpl(ms, settings.getLocale());
+    }
 
-	public static void main(String[] args) throws SQLException {
-		SpringApplication.run(Hw06Application.class, args);
-	}
+    public static void main(String[] args) throws SQLException {
+        SpringApplication.run(Hw06Application.class, args);
+    }
 }

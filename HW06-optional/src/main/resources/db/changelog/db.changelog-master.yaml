@@ -1,0 +1,7 @@
+databaseChangeLog:
+    - include:
+        file: include/0001-initial-state-with-main-tabs.yaml
+        relativeToChangelogFile: true
+    - include:
+        file: include/0002-link-tabs-adding.yaml
+        relativeToChangelogFile: true

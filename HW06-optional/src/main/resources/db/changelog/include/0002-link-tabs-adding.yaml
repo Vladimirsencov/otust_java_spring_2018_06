@@ -1,0 +1,105 @@
+databaseChangeLog:
+- changeSet:
+    id: 2
+    author: stvort
+    changes:
+
+    - createTable:
+        tableName: books_authors
+        columns:
+        - column:
+            name: book_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: author_id
+            type: bigint
+            constraints:
+              nullable: false
+
+    - createTable:
+        tableName: books_genres
+        columns:
+        - column:
+            name: book_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: genre_id
+            type: bigint
+            constraints:
+              nullable: false
+
+    - createTable:
+        tableName: books_comments
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: book_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: commenting_time
+            type: datetime
+            constraints:
+              nullable: false
+        - column:
+            name: author
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: comment
+            type: varchar(255)
+            constraints:
+              nullable: false
+
+    - addForeignKeyConstraint:
+        baseColumnNames: book_id
+        baseTableName: books_authors
+        constraintName: fk_books_authors_book_id
+        referencedColumnNames: id
+        referencedTableName: books
+        onDelete: cascade
+
+    - addForeignKeyConstraint:
+        baseColumnNames: author_id
+        baseTableName: books_authors
+        constraintName: fk_books_authors_author_id
+        referencedColumnNames: id
+        referencedTableName: authors
+        onDelete: cascade
+
+    - addForeignKeyConstraint:
+        baseColumnNames: book_id
+        baseTableName: books_genres
+        constraintName: fk_books_genres_book_id
+        referencedColumnNames: id
+        referencedTableName: books
+        onDelete: cascade
+
+    - addForeignKeyConstraint:
+        baseColumnNames: genre_id
+        baseTableName: books_genres
+        constraintName: fk_books_genres_genre_id
+        referencedColumnNames: id
+        referencedTableName: genres
+        onDelete: cascade
+
+
+    - addForeignKeyConstraint:
+        baseColumnNames: book_id
+        baseTableName: books_comments
+        constraintName: fk_books_comments_book_id
+        referencedColumnNames: id
+        referencedTableName: books
+        onDelete: cascade

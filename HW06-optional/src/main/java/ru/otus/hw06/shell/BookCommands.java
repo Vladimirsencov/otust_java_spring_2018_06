@@ -1,5 +1,6 @@
 package ru.otus.hw06.shell;
 
+import org.h2.tools.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -8,6 +9,7 @@ import ru.otus.hw06.interfaces.i18n.MessageSourceWrapper;
 import ru.otus.hw06.interfaces.services.DataStorageService;
 import ru.otus.hw06.models.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
