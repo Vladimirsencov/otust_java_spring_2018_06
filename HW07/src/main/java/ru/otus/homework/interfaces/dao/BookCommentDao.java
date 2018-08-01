@@ -1,11 +1,10 @@
 package ru.otus.homework.interfaces.dao;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.otus.homework.models.BookComment;
 
 import java.util.List;
 
-public interface BookCommentDao {
-    BookComment insert(BookComment comment);
-    void remove(long id);
-    List<BookComment> getAllByBookId(long bookId);
+public interface BookCommentDao extends CrudRepository<BookComment, Long> {
+    List<BookComment> findAllByBookBriefId(long bookBriefId);
 }

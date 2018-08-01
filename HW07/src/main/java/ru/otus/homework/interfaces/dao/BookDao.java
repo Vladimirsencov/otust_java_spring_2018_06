@@ -1,12 +1,12 @@
 package ru.otus.homework.interfaces.dao;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.otus.homework.models.Book;
-import ru.otus.homework.models.BookBrief;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface BookDao {
+public interface BookDao extends CrudRepository<Book, Long> {
+/*
     Book insert(Book book);
     Book update(Book book);
     Book save(Book book);
@@ -14,4 +14,6 @@ public interface BookDao {
     Optional<Book> getById(long id);
     List<Book> getAll();
     Optional<BookBrief> getBookBriefById(long id);
+*/
+    List<Book> findAll();
 }

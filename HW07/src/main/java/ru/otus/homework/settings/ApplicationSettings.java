@@ -1,4 +1,4 @@
-package ru.otus.homework;
+package ru.otus.homework.settings;
 
 import lombok.Getter;
 import lombok.Setter;

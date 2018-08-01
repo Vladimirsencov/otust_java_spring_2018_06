@@ -1,4 +1,4 @@
-package ru.otus.homework.dao;
+package ru.otus.homework.interfaces.dao;
 
 class DAOTestConst {
     static final String TEST_AUTHOR_NAME = "Vasya";

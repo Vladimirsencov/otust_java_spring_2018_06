@@ -2,6 +2,7 @@ package ru.otus.homework.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.otus.homework.interfaces.dao.BookBriefDao;
 import ru.otus.homework.interfaces.dao.BookCommentDao;
 import ru.otus.homework.interfaces.dao.BookDao;
 import ru.otus.homework.interfaces.services.DataStorageService;
@@ -14,11 +15,14 @@ import java.util.Optional;
 public class DatabaseService implements DataStorageService {
 
     private final BookDao bookDao;
+    private final BookBriefDao bookBriefDao;
     private final BookCommentDao commentDao;
 
+
     @Autowired
-    public DatabaseService(BookDao bookDao, BookCommentDao commentDao) {
+    public DatabaseService(BookDao bookDao, BookBriefDao bookBriefDao, BookCommentDao commentDao) {
         this.bookDao = bookDao;
+        this.bookBriefDao = bookBriefDao;
         this.commentDao = commentDao;
     }
 
@@ -30,36 +34,36 @@ public class DatabaseService implements DataStorageService {
 
     @Override
     public void removeBook(long id) {
-        bookDao.remove(id);
+        bookDao.deleteById(id);
     }
 
     @Override
     public Optional<Book> getBookById(long id) {
-        return bookDao.getById(id);
+        return bookDao.findById(id);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return bookDao.getAll();
+        return bookDao.findAll();
     }
 
     @Override
     public Optional<BookBrief> getBookBriefById(long id) {
-        return bookDao.getBookBriefById(id);
+        return bookBriefDao.findById(id);
     }
 
     @Override
     public BookComment insertBookComment(BookComment comment) {
-        return commentDao.insert(comment);
+        return commentDao.save(comment);
     }
 
     @Override
     public void removeBookComment(long id) {
-        commentDao.remove(id);
+        commentDao.deleteById(id);
     }
 
     @Override
     public List<BookComment> getAllBookCommentsByBookId(long bookId) {
-        return commentDao.getAllByBookId(bookId);
+        return commentDao.findAllByBookBriefId(bookId);
     }
 }

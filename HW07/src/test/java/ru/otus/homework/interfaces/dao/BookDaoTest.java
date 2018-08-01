@@ -1,16 +1,17 @@
-package ru.otus.homework.dao;
+package ru.otus.homework.interfaces.dao;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.otus.homework.interfaces.dao.BookDao;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.models.Author;
 import ru.otus.homework.models.Book;
 import ru.otus.homework.models.BookBrief;
@@ -19,22 +20,21 @@ import ru.otus.homework.models.Genre;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static ru.otus.homework.dao.DAOTestConst.*;
+import static ru.otus.homework.interfaces.dao.DAOTestConst.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {
-        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
-})
+@DataJpaTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+public class BookDaoTest {
 
-public class BookDaoImplTest {
-
-
-    @SpyBean
     @Autowired
     private BookDao bookDao;
+
+    @Autowired
+    private BookBriefDao bookBriefDao;
+
 
     private Book testBook;
 
@@ -52,14 +52,14 @@ public class BookDaoImplTest {
 
     @Test
     public void insert() throws Exception {
-        Book insertedBook = bookDao.insert(testBook);
+        Book insertedBook = bookDao.save(testBook);
         assertTrue(insertedBook != null && insertedBook.getId() != null && insertedBook.getId() == 1L);
 
     }
 
     @Test
     public void update() throws Exception {
-        Book insertedBook = bookDao.insert(testBook);
+        Book insertedBook = bookDao.save(testBook);
 
         insertedBook.setName(TEST_BOOK_NAME2);
         insertedBook.setDescription(TEST_BOOK_DESC2);
@@ -67,7 +67,7 @@ public class BookDaoImplTest {
         insertedBook.getAuthors().add(new Author(null, TEST_AUTHOR_NAME3));
         insertedBook.getGenres().add(new Genre(null, TEST_GENRE_NAME3));
 
-        Book updatedBook = bookDao.update(insertedBook);
+        Book updatedBook = bookDao.save(insertedBook);
         sortBookAuthorsAndGenresById(updatedBook);
 
         insertedBook.getAuthors().get(2).setId(3L);
@@ -76,21 +76,12 @@ public class BookDaoImplTest {
     }
 
     @Test
-    public void save() throws Exception {
-        Book insertedBook = bookDao.save(testBook);
-        verify(bookDao).insert(any());
-
-        bookDao.save(insertedBook);
-        verify(bookDao).update(any());
-    }
-
-    @Test
     public void remove() throws Exception {
         Book insertedBook = bookDao.save(testBook);
         assertNotNull(insertedBook);
 
-        bookDao.remove(1L);
-        insertedBook = bookDao.getById(1L).orElse(null);
+        bookDao.deleteById(1L);
+        insertedBook = bookDao.findById(1L).orElse(null);
         assertNull(insertedBook);
     }
 
@@ -101,7 +92,7 @@ public class BookDaoImplTest {
         bookDao.save(testBook);
         testBook.setId(1L);
 
-        Book insertedBook = bookDao.getById(1L).orElse(null);
+        Book insertedBook = bookDao.findById(1L).orElse(null);
         assertEquals(testBook, insertedBook);
     }
 
@@ -116,7 +107,7 @@ public class BookDaoImplTest {
         testBook2 = bookDao.save(testBook2);
 
         List<Book> expectedBooks = Arrays.asList(testBook, testBook2);
-        List<Book> actualBooks = bookDao.getAll();
+        List<Book> actualBooks = bookDao.findAll();
 
         expectedBooks.sort(Comparator.comparingLong(Book::getId));
         expectedBooks.forEach(this::sortBookAuthorsAndGenresById);
@@ -133,7 +124,7 @@ public class BookDaoImplTest {
         bookDao.save(testBook);
         BookBrief testBookBrief = new BookBrief(1L, testBook.getName());
 
-        BookBrief insertedBookBrief = bookDao.getBookBriefById(1L).orElse(null);
+        BookBrief insertedBookBrief = bookBriefDao.findById(1L).orElse(null);
         assertEquals(testBookBrief, insertedBookBrief);
     }
 
