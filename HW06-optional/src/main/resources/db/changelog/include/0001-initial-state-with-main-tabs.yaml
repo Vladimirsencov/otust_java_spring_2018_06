@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1
+    id: 0001-initial-state-with-main-tabs
     author: stvort
     changes:
 
