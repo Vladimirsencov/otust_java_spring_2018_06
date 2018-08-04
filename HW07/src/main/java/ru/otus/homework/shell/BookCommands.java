@@ -23,6 +23,10 @@ public class BookCommands {
     private static final String CAPTION_COMMENTS_FOR_BOOK_PATTERN = "caption.comments.for.book.pattern";
     private static final String COMMENT_OUTPUT_PATTERN = "%s  [%s] %s\n";
     private static final String DELIMITER = "--------------------------------------------------------------------------------------------------------\n";
+    private static final int MIN_NAME_LEN = 3;
+    private static final int MIN_DESCRIPTION_LEN = 15;
+    private static final int MIN_PUB_YEAR = 1500;
+    private static final int EMPTY_YEAR = 0;
 
 
     private final DataStorageService dataStorageService;
@@ -115,17 +119,17 @@ public class BookCommands {
     }
 
     private boolean checkCommandParameters(String name, String description, int pubYear) {
-        if (name != null && name.length() < 3) {
+        if (name != null && name.length() < MIN_NAME_LEN) {
             System.err.println(messageSourceWrapper.getMsg(ERR_WRONG_NAME_LENGTH));
             return false;
         }
 
-        if (description != null && description.length() < 15) {
+        if (description != null && description.length() < MIN_DESCRIPTION_LEN) {
             System.err.println(messageSourceWrapper.getMsg(ERR_WRONG_DESCRIPTION_LENGTH));
             return false;
         }
 
-        if (pubYear != 0 && pubYear < 1500) {
+        if (pubYear != EMPTY_YEAR && pubYear < MIN_PUB_YEAR) {
             System.err.println(messageSourceWrapper.getMsg(ERR_WRONG_PUB_YEAR));
             return false;
         }
