@@ -11,19 +11,19 @@ import ru.otus.homework.models.Book;
 @Repository
 public class BookDaoImpl implements BookDaoCustom {
 
-    private final AuthorDao authorDao;
-    private final GenreDao genreDao;
-    private final BookDao bookDao;
+    @Autowired
+    private AuthorDao authorDao;
 
     @Autowired
-    public BookDaoImpl(AuthorDao authorDao, GenreDao genreDao, BookDao bookDao) {
-        this.authorDao = authorDao;
-        this.genreDao = genreDao;
-        this.bookDao = bookDao;
-    }
+    private GenreDao genreDao;
+
+    @Autowired
+    private BookDao bookDao;
+
+    
 
     @Override
-    public Book save(Book book) {
+    public Book saveWithAuthorsAndGenres(Book book) {
         if (book.getAuthors() != null) {
             book.getAuthors().forEach(authorDao::save);
         }
@@ -32,7 +32,6 @@ public class BookDaoImpl implements BookDaoCustom {
             book.getGenres().forEach(genreDao::save);
         }
 
-        return null;
-        //return bookDao.save(book);
+        return bookDao.save(book);
     }
 }

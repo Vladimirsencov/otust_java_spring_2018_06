@@ -15,7 +15,7 @@ public class DatabaseService implements DataStorageService {
 
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
-    private final BookDaoCustom bookDao;
+    private final BookDao bookDao;
     private final BookBriefDao bookBriefDao;
     private final BookCommentDao commentDao;
 
@@ -32,14 +32,6 @@ public class DatabaseService implements DataStorageService {
 
     @Override
     public Book saveBook(Book book) {
-        if (book.getAuthors() != null) {
-            book.getAuthors().forEach(authorDao::save);
-        }
-
-        if (book.getGenres() != null) {
-            book.getGenres().forEach(g -> genreDao.save(g));
-        }
-
         return bookDao.save(book);
     }
 

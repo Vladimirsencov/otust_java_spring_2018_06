@@ -39,7 +39,7 @@ public class BookDaoTest {
     GenreDao genreDao;
 
     @Autowired
-    private BookDaoCustom bookDao;
+    private BookDao bookDao;
 
     @Autowired
     private BookBriefDao bookBriefDao;
@@ -118,8 +118,8 @@ public class BookDaoTest {
                 Arrays.asList(new Genre(null, TEST_GENRE_NAME3))
         );
 
-        testBook = bookDao.save(testBook);
-        testBook2 = bookDao.save(testBook2);
+        testBook = bookDao.saveWithAuthorsAndGenresWithAuthorsAndGenres(testBook);
+        testBook2 = bookDao.saveWithAuthorsAndGenresWithAuthorsAndGenres(testBook2);
 
         List<Book> expectedBooks = Arrays.asList(testBook, testBook2);
         List<Book> actualBooks = bookDao.findAll();
