@@ -1,6 +1,7 @@
 package ru.otus.homework.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework.interfaces.dao.AuthorDao;
 import ru.otus.homework.interfaces.dao.BookDao;
@@ -17,6 +18,7 @@ public class BookDaoImpl implements BookDaoCustom {
     @Autowired
     private GenreDao genreDao;
 
+    @Lazy
     @Autowired
     private BookDao bookDao;
 
