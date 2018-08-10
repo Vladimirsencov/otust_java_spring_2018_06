@@ -19,5 +19,9 @@ public class DAOTestConst {
     public static final String TEST_COMMENT = "Все очень хорошо!";
     public static final String TEST_COMMENT2 = "Все очень отвратительно!";
 
+    public static final String DAO_PACKAGE = "ru.otus.homework.dao";
+    public static final String MODELS_PACKAGE = "ru.otus.homework.models";
+    public static final String DAO_INTERFACES_PACKAGE = "ru.otus.homework.interfaces.dao";
+
 
 }

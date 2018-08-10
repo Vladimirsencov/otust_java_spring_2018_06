@@ -1,4 +1,4 @@
-package ru.otus.homework.interfaces.dao;
+package ru.otus.homework;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;

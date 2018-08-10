@@ -7,12 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import ru.otus.homework.EmbeddedMongoDbServerWrapper;
 
 import java.io.IOException;
 
+import static ru.otus.homework.DAOTestConst.*;
+
 @SpringBootApplication
-@EntityScan(basePackages = {"ru.otus.homework.models"})
-@ComponentScan(basePackages = {"ru.otus.homework.dao"})
+@EntityScan(basePackages = {MODELS_PACKAGE})
+@ComponentScan(basePackages = {DAO_PACKAGE})
 public class SpringBootHomeworkTestDaoApplication {
 
     private static final String MONGO_DB_URL = "localhost";
