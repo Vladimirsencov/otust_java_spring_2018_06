@@ -4,4 +4,5 @@ import ru.otus.homework.models.Book;
 
 public interface BookDaoCustom {
     Book saveWithAuthorsAndGenres(Book book);
+    void deleteByIdWithComments(String id);
 }

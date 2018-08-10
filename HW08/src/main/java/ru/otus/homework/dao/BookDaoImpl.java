@@ -3,26 +3,28 @@ package ru.otus.homework.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
-import ru.otus.homework.interfaces.dao.AuthorDao;
-import ru.otus.homework.interfaces.dao.BookDao;
-import ru.otus.homework.interfaces.dao.BookDaoCustom;
-import ru.otus.homework.interfaces.dao.GenreDao;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.homework.interfaces.dao.*;
 import ru.otus.homework.models.Book;
 
 @Repository
+@Transactional
 public class BookDaoImpl implements BookDaoCustom {
 
-    @Autowired
-    private AuthorDao authorDao;
 
-    @Autowired
-    private GenreDao genreDao;
+    private final AuthorDao authorDao;
+    private final GenreDao genreDao;
+    private final BookDao bookDao;
+    private final BookCommentDao commentDao;
 
     @Lazy
     @Autowired
-    private BookDao bookDao;
-
-    
+    public BookDaoImpl(AuthorDao authorDao, GenreDao genreDao, BookDao bookDao, BookCommentDao commentDao) {
+        this.authorDao = authorDao;
+        this.genreDao = genreDao;
+        this.bookDao = bookDao;
+        this.commentDao = commentDao;
+    }
 
     @Override
     public Book saveWithAuthorsAndGenres(Book book) {
@@ -35,5 +37,11 @@ public class BookDaoImpl implements BookDaoCustom {
         }
 
         return bookDao.save(book);
+    }
+
+    @Override
+    public void deleteByIdWithComments(String id) {
+        commentDao.deleteByBookBriefId(id);
+        bookDao.deleteById(id);
     }
 }

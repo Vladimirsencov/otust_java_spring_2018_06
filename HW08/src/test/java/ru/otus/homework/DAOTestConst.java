@@ -16,4 +16,8 @@ public class DAOTestConst {
     public static final int TEST_BOOK_PUB_YEAR = 2005;
     public static final int TEST_BOOK_PUB_YEAR2 = 2011;
 
+    public static final String TEST_COMMENT = "Все очень хорошо!";
+    public static final String TEST_COMMENT2 = "Все очень отвратительно!";
+
+
 }

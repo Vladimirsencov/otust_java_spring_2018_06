@@ -32,14 +32,13 @@ public class DatabaseService implements DataStorageService {
 
     @Override
     public Book saveBook(Book book) {
-        return bookDao.save(book);
+        return bookDao.saveWithAuthorsAndGenres(book);
     }
 
     @Override
     @Transactional
     public void removeBook(String id) {
-        bookDao.deleteById(id);
-        commentDao.deleteByBookBriefId(id);
+        bookDao.deleteByIdWithComments(id);
     }
 
     @Override

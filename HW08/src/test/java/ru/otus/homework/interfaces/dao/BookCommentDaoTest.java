@@ -32,9 +32,6 @@ import static ru.otus.homework.DAOTestConst.*;
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class BookCommentDaoTest {
 
-    private static final String TEST_COMMENT = "Все очень хорошо!";
-    private static final String TEST_COMMENT2 = "Все очень отвратительно!";
-
     @Autowired
     MongoTemplate mongoTemplate;
 
