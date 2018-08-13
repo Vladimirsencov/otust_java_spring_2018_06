@@ -13,7 +13,8 @@ public interface DataStorageService {
     List<Book> getAllBooks();
     Optional<BookBrief> getBookBriefById(String id);
 
-    BookComment insertBookComment(BookComment comment);
+    BookComment saveBookComment(BookComment comment);
     void removeBookComment(String id);
     List<BookComment> getAllBookCommentsByBookId(String bookId);
+    Optional<BookComment> getBookCommentById(String id);
 }

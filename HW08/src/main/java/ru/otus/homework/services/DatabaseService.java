@@ -57,7 +57,7 @@ public class DatabaseService implements DataStorageService {
     }
 
     @Override
-    public BookComment insertBookComment(BookComment comment) {
+    public BookComment saveBookComment(BookComment comment) {
         return commentDao.save(comment);
     }
 
@@ -69,5 +69,10 @@ public class DatabaseService implements DataStorageService {
     @Override
     public List<BookComment> getAllBookCommentsByBookId(String bookId) {
         return commentDao.findAllByBookBriefId(bookId);
+    }
+
+    @Override
+    public Optional<BookComment> getBookCommentById(String id) {
+        return commentDao.findById(id);
     }
 }

@@ -19,9 +19,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.*;
 import static ru.otus.homework.DAOTestConst.*;
 
 @RunWith(SpringRunner.class)
@@ -60,19 +58,27 @@ public class BookCommentDaoTest {
     @Test
     public void save() throws Exception {
         BookComment insertedComment = commentDao.save(testComment);
-        assertTrue(insertedComment != null && insertedComment.getId() != null);
+        assertThat(insertedComment != null && insertedComment.getId() != null).isTrue();
+        testComment.setId(insertedComment.getId());
+        assertThat(insertedComment).isEqualTo(testComment);
+
+        testComment.setCommentingTime(new Date());
+        testComment.setAuthor(TEST_AUTHOR_NAME2);
+        testComment.setComment(TEST_COMMENT2);
+        insertedComment = commentDao.save(testComment);
+        assertThat(insertedComment).isEqualTo(testComment);
     }
 
     @Test
     public void deleteById() throws Exception {
         testComment = commentDao.save(testComment);
         List<BookComment> comments = commentDao.findAllByBookBriefId(testBookBrief.getId());
-        assertTrue(comments != null && comments.size() == 1);
+        assertThat(comments != null && comments.size() == 1).isTrue();
 
         commentDao.deleteById(testComment.getId());
         comments = commentDao.findAllByBookBriefId(testBookBrief.getId());
-        assertNotNull(comments);
-        assertEquals(0, comments.size());
+        assertThat(comments).isNotNull();
+        assertThat(comments.size()).isEqualTo(0);
     }
 
     @Test
@@ -82,6 +88,6 @@ public class BookCommentDaoTest {
         testComment2 = commentDao.save(testComment2);
         List<BookComment> expectedComments = Arrays.asList(testComment, testComment2);
         List<BookComment> actualComments = commentDao.findAllByBookBriefId(testBookBrief.getId());
-        assertEquals(expectedComments, actualComments);
+        assertThat(actualComments).isEqualTo(expectedComments);
     }
 }

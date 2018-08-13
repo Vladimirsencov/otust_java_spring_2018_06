@@ -15,7 +15,7 @@ import ru.otus.homework.models.*;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static ru.otus.homework.DAOTestConst.*;
 
 @RunWith(SpringRunner.class)
@@ -26,6 +26,8 @@ import static ru.otus.homework.DAOTestConst.*;
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class BookDaoTest {
 
+    private static final String BOOK_PROP_AUTHORS = "authors";
+    private static final String BOOK_PROP_GENRES = "genres";
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -58,46 +60,41 @@ public class BookDaoTest {
     @Test
     public void insert() throws Exception {
         Book insertedBook = bookDao.saveWithAuthorsAndGenres(testBook);
-        assertTrue(insertedBook != null && insertedBook.getId() != null);
+        assertThat(insertedBook != null && insertedBook.getId() != null).isTrue();
 
     }
 
     @Test
     public void update() throws Exception {
-        Book insertedBook = bookDao.saveWithAuthorsAndGenres(testBook);
+        Book insertedBook = bookDao.saveWithAuthorsAndGenres(new Book(testBook));
 
-        insertedBook.setName(TEST_BOOK_NAME2);
-        insertedBook.setDescription(TEST_BOOK_DESC2);
-        insertedBook.setPubYear(TEST_BOOK_PUB_YEAR2);
         insertedBook.getAuthors().add(new Author(null, TEST_AUTHOR_NAME3));
         insertedBook.getGenres().add(new Genre(null, TEST_GENRE_NAME3));
+        insertedBook = new Book(insertedBook.getId(), TEST_BOOK_NAME2, TEST_BOOK_DESC2, TEST_BOOK_PUB_YEAR2, insertedBook.getAuthors(), insertedBook.getGenres());
+        Book updatedBook = bookDao.saveWithAuthorsAndGenres(new Book(insertedBook));
 
-        Book updatedBook = bookDao.saveWithAuthorsAndGenres(insertedBook);
-        sortBookAuthorsAndGenresById(updatedBook);
-
-        insertedBook.getAuthors().get(2).setId(updatedBook.getAuthors().get(2).getId());
-        insertedBook.getGenres().get(2).setId(updatedBook.getGenres().get(2).getId());
-        assertEquals(insertedBook, updatedBook);
+        assertThat(updatedBook).isEqualToIgnoringGivenFields(insertedBook, BOOK_PROP_AUTHORS, BOOK_PROP_GENRES);
+        assertThat(insertedBook.getAuthors()).isNotNull().hasSameSizeAs(updatedBook.getAuthors()).containsAll(updatedBook.getAuthors());
+        assertThat(insertedBook.getGenres()).isNotNull().hasSameSizeAs(updatedBook.getGenres()).containsAll(updatedBook.getGenres());
     }
 
     @Test
     public void remove() throws Exception {
         Book insertedBook = bookDao.saveWithAuthorsAndGenres(testBook);
-        assertNotNull(insertedBook);
+        assertThat(insertedBook).isNotNull();
 
         Optional<BookBrief> bookBriefOptional = bookBriefDao.findById(insertedBook.getId());
-        assertTrue(bookBriefOptional.isPresent());
+        assertThat(bookBriefOptional.isPresent()).isTrue();
 
         BookBrief bookBrief = bookBriefOptional.get();
         BookComment comment = new BookComment(null, new Date(), TEST_AUTHOR_NAME, TEST_COMMENT, bookBrief);
         comment = bookCommentDao.save(comment);
 
         bookDao.deleteByIdWithComments(insertedBook.getId());
-        insertedBook = bookDao.findById(insertedBook.getId()).orElse(null);
-        assertNull(insertedBook);
+        assertThat(bookDao.findById(insertedBook.getId()).isPresent()).isFalse();
 
         Optional<BookComment> commentOptional = bookCommentDao.findById(comment.getId());
-        assertFalse(commentOptional.isPresent());
+        assertThat(commentOptional.isPresent()).isFalse();
     }
 
     @Test
@@ -107,7 +104,7 @@ public class BookDaoTest {
         testBook = bookDao.saveWithAuthorsAndGenres(testBook);
 
         Book insertedBook = bookDao.findById(testBook.getId()).orElse(null);
-        assertEquals(testBook, insertedBook);
+        assertThat(testBook).isEqualTo(insertedBook);
     }
 
 
@@ -123,15 +120,7 @@ public class BookDaoTest {
 
         List<Book> expectedBooks = Arrays.asList(testBook, testBook2);
         List<Book> actualBooks = bookDao.findAll();
-
-        expectedBooks.sort(Comparator.comparing(Book::getId));
-        expectedBooks.forEach(this::sortBookAuthorsAndGenresById);
-
-        actualBooks.sort(Comparator.comparing(Book::getId));
-        actualBooks.forEach(this::sortBookAuthorsAndGenresById);
-
-        assertEquals(expectedBooks, actualBooks);
-
+        assertThat(expectedBooks).hasSameSizeAs(actualBooks).containsAll(actualBooks);
     }
 
 
@@ -141,11 +130,6 @@ public class BookDaoTest {
         BookBrief testBookBrief = new BookBrief(insertedBook.getId(), testBook.getName());
 
         BookBrief insertedBookBrief = bookBriefDao.findById(insertedBook.getId()).orElse(null);
-        assertEquals(testBookBrief, insertedBookBrief);
-    }
-
-    private void sortBookAuthorsAndGenresById(Book book) {
-        book.getAuthors().sort(Comparator.comparing(Author::getId));
-        book.getGenres().sort(Comparator.comparing(Genre::getId));
+        assertThat(testBookBrief).isEqualTo(insertedBookBrief);
     }
 }

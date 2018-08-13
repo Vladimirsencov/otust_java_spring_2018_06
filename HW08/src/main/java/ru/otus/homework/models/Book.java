@@ -7,13 +7,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "books")
 public class Book {
     @Id
@@ -27,6 +24,19 @@ public class Book {
 
     @DBRef
     List<Genre> genres;
+
+    public Book() {
+    }
+
+    public Book(Book book) {
+        this.setId(book.getId());
+        this.setName(book.getName());
+        this.setDescription(book.getDescription());
+        this.setPubYear(book.getPubYear());
+        this.setAuthors(new ArrayList<>(book.getAuthors()));
+        this.setGenres(new ArrayList<>(book.getGenres()));
+
+    }
 
     @Override
     public boolean equals(Object o) {
