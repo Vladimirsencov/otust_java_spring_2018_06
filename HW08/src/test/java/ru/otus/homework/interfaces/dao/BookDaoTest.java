@@ -74,8 +74,8 @@ public class BookDaoTest {
         Book updatedBook = bookDao.saveWithAuthorsAndGenres(new Book(insertedBook));
 
         assertThat(updatedBook).isEqualToIgnoringGivenFields(insertedBook, BOOK_PROP_AUTHORS, BOOK_PROP_GENRES);
-        assertThat(insertedBook.getAuthors()).isNotNull().hasSameSizeAs(updatedBook.getAuthors()).containsAll(updatedBook.getAuthors());
-        assertThat(insertedBook.getGenres()).isNotNull().hasSameSizeAs(updatedBook.getGenres()).containsAll(updatedBook.getGenres());
+        assertThat(updatedBook.getAuthors()).isNotNull().hasSameSizeAs(insertedBook.getAuthors()).containsAll(insertedBook.getAuthors());
+        assertThat(updatedBook.getGenres()).isNotNull().hasSameSizeAs(insertedBook.getGenres()).containsAll(insertedBook.getGenres());
     }
 
     @Test
