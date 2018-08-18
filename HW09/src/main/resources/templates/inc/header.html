@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Библиотека &#171;Книги&#187;</title>
+
+    <link rel="icon" href="../static/favicon.png" type="image/x-icon" th:href="@{favicon.png}">
+    <link rel="shortcut icon" href="../static/favicon.png" type="image/x-icon" th:href="@{favicon.png}">
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+<header class="header-container" th:fragment="header">
+    <div class="header-content centrator">
+        <div class="header">
+            Библиотека &#171;Книги&#187;
+            <div class="sub-header">Тишина должна быть в библиотеке</div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
+

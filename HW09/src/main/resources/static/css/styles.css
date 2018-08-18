@@ -1,0 +1,192 @@
+.centrator {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body {
+	font-family: "Segoe UI";
+    margin: 0px;
+}
+
+main {
+	margin: 15px;
+	width: 1024px;		
+}
+
+a, a:visited, a:hover {
+	color: darkblue;	
+	text-decoration: none;
+}
+
+.header-container { 
+	background-color: #333333;
+	height: 70px;
+	min-width: 1024px;
+}
+
+.header-content {
+	width: 1024px;	
+}
+
+.header {
+	display: inline-block;
+	width: 500px;
+	color: #ff8c00;
+	font-size: 18pt;
+	font-weight: bold;
+	margin-top: 4px;
+	margin-left: 10px;
+	padding-left: 120px;
+	background: url("../img/logo1.png") no-repeat 0% center;
+}
+
+.sub-header {
+	color: white;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+h2, h4 {
+	color: #ff8c00;
+}
+
+p {
+	text-align: justify;
+}
+
+label {
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+table.books-list {
+	width: 100%;
+	font-size: 10pt;
+	margin-top: 10px;
+	border: 1px solid Gainsboro;
+	border-collapse: collapse;
+}
+
+thead {
+	color: CornflowerBlue;
+	vertical-align: top;
+    text-align: center;
+}
+
+.books-list>tbody{
+	font-size: 10pt;
+}
+
+thead>tr>td{
+	border-bottom: 1px solid Gainsboro;
+}
+
+.books-list>thead>tr>td, .books-list>tbody>tr>td{
+	height: 25px;
+}
+
+.books-list>tbody>tr>td:last-child {
+	width: 55px;
+}
+
+.books-list>tbody>tr:last-child>td{
+	border-bottom: 0px;
+}
+
+.books-list-name-cell {
+    width: 180px;
+	padding-left: 35px;
+	background: url("../img/book.png") 5px center no-repeat;
+	background-size: 25px 25px;
+}
+
+.books-list-authors-cell, .books-list-genres-cell {
+	padding-left: 5px;
+    width: 150px;
+}
+
+.row-btn {
+    width: 25px;
+    height: 25px;
+    border: 0;
+	cursor: pointer;
+	display: inline-block;
+	overflow: hidden;
+	outline: none;
+}
+
+.edit-row-btn {
+    background: url("../img/edit.png") center no-repeat;
+    background-size: cover;
+}
+
+.del-row-btn {
+    background: url("../img/del.png") center no-repeat;
+    background-size: cover;
+}
+
+.add-button {
+    background: url("../img/add.png") center no-repeat;
+    background-size: 25px 25px;
+    height: 30px;
+    background-position: left;
+    padding-left: 30px;
+    border: 0;
+}
+
+.delete-button-form {
+    display: inline-block;
+}
+
+.book-details {
+	font-size: 10pt;
+}
+
+.book-details>h3 {
+	padding-left: 35px;
+	background: url("../img/book.png") 5px center no-repeat;
+	background-size: 25px 25px;
+	color: CornflowerBlue;
+}
+
+.detail-header {
+    color: CornflowerBlue;
+    width: 120px
+}
+
+.comments-list {
+	width: 100%;
+	font-size: 10pt;
+	margin-top: 10px;
+	border: 1px solid Gainsboro;
+	border-collapse: collapse;
+}
+
+.comments-list>tbody>tr>td {
+    padding-left: 5px;
+}
+
+.comments-list>tbody>tr>td:first-child {
+    width: 180px;
+}
+.comments-list>tbody>tr>td:nth-child(2) {
+    width: 180px;
+}
+
+.comments-list>tbody>tr>td:last-child {
+    width: 55px;
+}
+
+.edit-form {
+    width: 700px;
+	font-size: 10pt;
+}
+
+.form-row {
+    padding-bottom: 5px;
+}
+
+.form-row>input {
+    width: 300px;
+}

@@ -1,0 +1,10 @@
+package ru.otus.homework.interfaces.dao;
+
+import org.springframework.data.repository.CrudRepository;
+import ru.otus.homework.models.Genre;
+
+import java.util.Optional;
+
+public interface GenreDao extends CrudRepository<Genre, Long> {
+    Optional<Genre> findByName(String name);
+}
