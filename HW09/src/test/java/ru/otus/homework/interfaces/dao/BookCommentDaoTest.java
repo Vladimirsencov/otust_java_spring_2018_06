@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static ru.otus.homework.DAOTestConst.*;
+import static ru.otus.homework.TestConst.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)

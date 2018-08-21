@@ -2,7 +2,7 @@ let editCommentDialog;
 let confirmDeleteCommentDialog;
 let deleteCommentForm;
 
-$(document).ready(function() {
+$(document).ready(() => {
         deleteCommentForm = $('#deleteCommentForm');
         editCommentDialog = makeDialog("#editCommentDialog", 724, 350, {
                     "Сохранить": () => {

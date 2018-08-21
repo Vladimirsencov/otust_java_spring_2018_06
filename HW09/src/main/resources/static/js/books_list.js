@@ -2,7 +2,7 @@ let editBookDialog;
 let confirmDeleteBookDialog;
 let deleteBookForm;
 
-$(document).ready(function() {
+$(document).ready(() => {
         deleteBookForm = $('#deleteBookForm');
         editBookDialog = makeDialog("#editBookDialog", 724, 350, {
                     "Сохранить": () => {

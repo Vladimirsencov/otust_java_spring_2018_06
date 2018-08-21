@@ -40,10 +40,16 @@ public class BookForWebDto {
     }
 
     public List<Author> getAuthorsAsList() {
+        if (authors == null) {
+            return null;
+        }
         return Arrays.stream(authors.split(",")).map(name -> new Author(null, name)).collect(Collectors.toList());
     }
 
     public List<Genre> getGenresAsList() {
+        if (genres == null) {
+            return null;
+        }
         return Arrays.stream(genres.split(",")).map(name -> new Genre(null, name)).collect(Collectors.toList());
     }
 }

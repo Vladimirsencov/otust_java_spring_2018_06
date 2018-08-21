@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ru.otus.homework.controllers.ViewConsts.*;
+import static ru.otus.homework.controllers.MvcConsts.*;
 
 @Controller
 public class BookController {
@@ -29,29 +29,29 @@ public class BookController {
     @RequestMapping("/")
     public String viewBooksList(Model model) {
         List<BookForWebDto> books = dataStorageService.getAllBooks().stream().map(BookForWebDto::new).collect(Collectors.toList());
-        model.addAttribute("books", books);
+        model.addAttribute(MODEL_ATTR_BOOKS, books);
         return VIEW_NAME_BOOKS_LIST;
     }
 
-    @RequestMapping("/book_details")
+    @RequestMapping(REQUEST_BOOK_DETAILS)
     public String viewBookDetails(@RequestParam long id, Model model) {
         Optional<Book> bookOptional = dataStorageService.getBookById(id);
         BookForWebDto dto = new BookForWebDto(bookOptional.orElse(new Book()));
         List<BookComment> comments = dataStorageService.getAllBookCommentsByBookId(id);
 
-        model.addAttribute("book", dto);
-        model.addAttribute("comments", comments);
+        model.addAttribute(MODEL_ATTR_BOOK, dto);
+        model.addAttribute(MODEL_ATTR_COMMENTS, comments);
         return VIEW_NAME_BOOK_DETAILS;
     }
 
-    @PostMapping("/book/delete")
+    @PostMapping(REQUEST_BOOK_DELETE)
     public String deleteBook(@RequestParam long id) {
         dataStorageService.removeBook(id);
         return VIEW_NAME_REDIRECT_TO_CONTEXT_PATH;
     }
 
 
-    @PostMapping("/book/save")
+    @PostMapping(REQUEST_BOOK_SAVE)
     public String saveBook(@ModelAttribute BookForWebDto dto) {
         Book book = new Book(dto.getId(), dto.getName(), dto.getDescription(), dto.getPubYear(), dto.getAuthorsAsList(), dto.getGenresAsList());
         dataStorageService.saveBook(book);

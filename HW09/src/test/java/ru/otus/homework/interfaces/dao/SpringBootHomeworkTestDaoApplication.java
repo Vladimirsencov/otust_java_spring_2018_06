@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
-import static ru.otus.homework.DAOTestConst.*;
+import static ru.otus.homework.TestConst.*;
 
 @SpringBootApplication
 @EntityScan(basePackages = {MODELS_PACKAGE})

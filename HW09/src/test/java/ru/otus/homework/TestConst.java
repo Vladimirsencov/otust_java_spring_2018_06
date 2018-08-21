@@ -1,6 +1,6 @@
 package ru.otus.homework;
 
-public class DAOTestConst {
+public class TestConst {
     public static final String TEST_AUTHOR_NAME = "Vasya";
     public static final String TEST_AUTHOR_NAME2 = "Igor";
     public static final String TEST_AUTHOR_NAME3 = "Petya";
@@ -21,7 +21,6 @@ public class DAOTestConst {
 
     public static final String DAO_PACKAGE = "ru.otus.homework.dao";
     public static final String MODELS_PACKAGE = "ru.otus.homework.models";
-    public static final String DAO_INTERFACES_PACKAGE = "ru.otus.homework.interfaces.dao";
 
 
 }

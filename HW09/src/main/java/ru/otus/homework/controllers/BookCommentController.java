@@ -11,7 +11,7 @@ import ru.otus.homework.models.dto.BookCommentForWebDto;
 
 import java.util.Date;
 
-import static ru.otus.homework.controllers.ViewConsts.*;
+import static ru.otus.homework.controllers.MvcConsts.*;
 
 @Controller
 public class BookCommentController {
@@ -23,14 +23,14 @@ public class BookCommentController {
         this.dataStorageService = dataStorageService;
     }
 
-    @PostMapping("comment/save")
+    @PostMapping(REQUEST_COMMENT_SAVE)
     public String saveComment(@ModelAttribute BookCommentForWebDto dto) {
         dataStorageService.getBookBriefById(dto.getBookId())
                 .ifPresent(b -> dataStorageService.saveBookComment(new BookComment(dto.getId(), new Date(), dto.getAuthor(), dto.getComment(), b)));
         return VIEW_NAME_REDIRECT_TO_DETAILS_PAGE + dto.getBookId();
     }
 
-    @PostMapping("/comment/delete")
+    @PostMapping(REQUEST_COMMENT_DELETE)
     public String deleteComment(@RequestParam long bookId, @RequestParam long id) {
         dataStorageService.getBookCommentById(id).ifPresent(c -> dataStorageService.removeBookComment(id));
 
