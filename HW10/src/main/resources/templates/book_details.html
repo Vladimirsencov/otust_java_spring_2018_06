@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="inc/header :: head"></head>
+<body>
+
+<script src="js/common.js"></script>
+<script src="js/books_details.js"></script>
+
+<header th:replace="inc/header :: header">&nbsp;</header>
+
+<main class="centrator">
+    <script th:text = "'currentBookId = ' + ${book.id}"></script>
+
+    <a href="books_list.html" th:href="'/'">[&lArr; Вернуься к списку книг]</a>
+    <h2>Описание книги</h2>
+    <table class="book-details">
+        <tbody>
+        <tr>
+            <td class="detail-header">Название книги:</td>
+            <td th:text="${book.name}">Длинное, длинное, длинное, длинное название книги</td>
+        </tr>
+        <tr>
+            <td class="detail-header">Жанр(ы):</td>
+            <td th:text="${book.genres}">Жанр1, Жанр2, Жанр3</td>
+        </tr>
+        <tr>
+            <td class="detail-header">Автор(ы):</td>
+            <td th:text="${book.authors}">Автор1, Автор2, Автор3</td>
+        </tr>
+        <tr>
+            <td class="detail-header">Год издания:</td>
+            <td th:text="${book.pubYear}">1981</td>
+        </tr>
+        <tr>
+            <td class="detail-header">Описание:</td>
+            <td th:text="${book.description}">Длинное, длинное, длинное, длинное, длинное, длинное, длинное, длинное,
+                длинное описание
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Комментарии</h4>
+    <button class="add-button" th:onclick="'openEditCommentDialog(\'' + ${book.id} + '\')'">Добавить комментарий
+    </button>
+    <table class="comments-list">
+        <thead>
+        <tr>
+            <td>Время</td>
+            <td>Автор</td>
+            <td>Комментарий</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody id = "commentsTableBody">
+        </tbody>
+    </table>
+
+    <div id="confirmDeleteCommentDialog" title="Удаление комментария">
+        <input type="hidden" name="id" id="commentIdForDelete" value="">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 15px; margin-top: 1px;"></span>Действительно удалить выбранный комментарий?</p>
+    </div>
+
+    <div id="editCommentDialog">
+        <form class="edit-form" action="comment/save" id="editCommentForm" method="POST">
+            <input type="hidden" name="id" id="commentId" value="">
+            <div class="form-row">
+                <label for="commentAuthor">Автор</label>
+                <input type="text" name="author" id="commentAuthor" placeholder="Автор" required><br/>
+            </div>
+            <div class="form-row">
+                <label for="comment">Комментарий</label>
+                <input type="text" name="comment" id="comment" placeholder="Комментарий" required><br/>
+            </div>
+        </form>
+    </div>
+
+</main>
+</body>
+</html>

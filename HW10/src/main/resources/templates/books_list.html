@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="inc/header :: head"></head>
+<body>
+<script src="js/common.js"></script>
+<script src="js/books_list.js"></script>
+<header th:replace="inc/header :: header">&nbsp;</header>
+
+<main class="centrator">
+    <h2>Каталог</h2>
+
+    <button class="add-button" onclick="openEditBookDialog()">Добавить книгу</button>
+    <table class="books-list">
+        <thead>
+        <tr>
+            <td>Название книги</td>
+            <td>Жанр(ы)</td>
+            <td>Автор(ы)</td>
+            <td>Описание</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody id = "booksTableBody">
+        </tbody>
+    </table>
+
+
+    <div id="confirmDeleteBookDialog" title="Удаление книги">
+        <input type="hidden" name="id" id="bookIdForDelete" value="">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: 15px; margin-top: 1px;"></span>Действительно удалить выбранную книгу?</p>
+    </div>
+
+    <div id="editBookDialog">
+        <form class="edit-form" action="book/save" id="editBookForm" method="POST">
+            <input type="hidden" name="id" id="bookId" value="">
+            <div class="form-row">
+                <label for="bookName">Название книги</label>
+                <input type="text" name="name" id="bookName" placeholder="Название книги" required><br/>
+            </div>
+            <div class="form-row">
+                <label for="bookGenre">Жанр(ы)</label>
+                <input type="text" name="genres" id="bookGenre" placeholder="Жанр" required><br/>
+            </div>
+            <div class="form-row">
+                <label for="bookAuthor">Автор(ы)</label>
+                <input type="text" name="authors" id="bookAuthor" placeholder="Автор" required><br/>
+            </div>
+            <div class="form-row">
+                <label for="bookPubYear">Год издания</label>
+                <input type="number" name="pubYear" id="bookPubYear" placeholder="Год издания книги" value="1991" required><br/>
+            </div>
+            <div class="form-row">
+                <label for="bookDescription">Описание книги</label>
+                <textarea name="description" id="bookDescription" placeholder="Описание книги" cols="66" rows="5"></textarea><br/>
+            </div>
+
+        </form>
+    </div>
+
+</main>
+</body>
+</html>

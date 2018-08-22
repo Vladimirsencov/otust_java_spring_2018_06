@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    generate-ddl: false
+
+    hibernate:
+      ddl-auto: none
+  datasource:
+    initialize: true
+    schema: schema.sql
+    data:
